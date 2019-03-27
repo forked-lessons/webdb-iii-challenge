@@ -73,4 +73,21 @@ router.put('/:id', async (req, res) => {
   }
 });
 
+router.delete('/:id', async (req, res) => {
+  try {
+    const count = await db('cohorts')
+      .where({ id: req.params.id })
+      .del();
+
+    if (count > 0) {
+      res.status(204).end();
+    } else {
+      res.status(404).json({ message: 'Cohort not found' });
+    }
+    res.status(200).json(cohort);
+  } catch (error) {
+    res.status(500).json(console.log(error));
+  }
+});
+
 module.exports = router;
