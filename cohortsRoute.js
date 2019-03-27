@@ -15,25 +15,62 @@ const router = express.Router();
 router.post('/', async (req, res) => {
   try {
     const [id] = await db('cohorts').insert(req.body);
-
     const cohort = await db('cohorts')
       .where({ id: id })
       .first();
-    res.status(500).json(cohort);
-  } catch (error) {
-    const errors = {
-      '19': 'Another record with that value exists'
-    };
-    const message = errors[error.errno] || 'We ran into an error';
-    res.status(500).json({ message, error });
-  }
-});
-router.get('/', async (req, res) => {
-  try {
-    const cohorts = await db('cohorts');
-    res.status(500).json(cohorts);
+    res.status(200).json(cohort);
   } catch (error) {
     res.status(500).json(console.log(error));
   }
 });
+
+router.get('/', async (req, res) => {
+  try {
+    const cohorts = await db('cohorts');
+    res.status(200).json(cohorts);
+  } catch (error) {
+    res.status(500).json(console.log(error));
+  }
+});
+
+router.get('/:id', async (req, res) => {
+  try {
+    const cohort = await db('cohorts')
+      .where({ id: req.params.id })
+      .first();
+    res.status(200).json(cohort);
+  } catch (error) {
+    res.status(500).json(console.log(error));
+  }
+});
+
+// router.get('/:id/students', async (req, res) => {
+//   try {
+//     const cohort = await db('cohorts')
+//       .where({ id: req.params.id })
+//       .first();
+//     res.status(200).json(cohort);
+//   } catch (error) {
+//     res.status(500).json(console.log(error));
+//   }
+// });
+
+router.put('/:id', async (req, res) => {
+  try {
+    const cohort = await db('cohorts')
+      .where({ id: req.params.id })
+      .update(req.body);
+
+    if (count > 0) {
+      const cohort = await db('cohorts')
+        .where({ id: req.params.id })
+        .first();
+
+      res.status(200).json(role);
+    } else res.status(200).json(cohort);
+  } catch (error) {
+    res.status(500).json(console.log(error));
+  }
+});
+
 module.exports = router;
