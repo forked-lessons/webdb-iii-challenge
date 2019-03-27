@@ -44,16 +44,25 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// router.get('/:id/students', async (req, res) => {
-//   try {
-//     const cohort = await db('cohorts')
-//       .where({ id: req.params.id })
-//       .first();
-//     res.status(200).json(cohort);
-//   } catch (error) {
-//     res.status(500).json(console.log(error));
-//   }
-// });
+router.get('/students', async (req, res) => {
+  try {
+    const students = await db('students');
+    res.status(200).json(students);
+  } catch (error) {
+    res.status(500).json(console.log(error));
+  }
+});
+
+router.get('/:id/students', async (req, res) => {
+  try {
+    const cohorts = await db('students')
+      .where({ cohort_id: req.params.id })
+      .first();
+    res.status(200).json(cohorts);
+  } catch (error) {
+    res.status(500).json(console.log(error));
+  }
+});
 
 router.put('/:id', async (req, res) => {
   try {
