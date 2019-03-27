@@ -44,15 +44,6 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.get('/students', async (req, res) => {
-  try {
-    const students = await db('students');
-    res.status(200).json(students);
-  } catch (error) {
-    res.status(500).json(console.log(error));
-  }
-});
-
 router.get('/:id/students', async (req, res) => {
   try {
     const cohorts = await db('students')
